@@ -6,7 +6,7 @@ export default async function Home() {
 
   return (
     <div>
-      <h1>TASKS</h1>
+      <h1 className="text-xl font-bold">ALL TASKS</h1>
 
       <TaskManager tasks={tasks} />
     </div>

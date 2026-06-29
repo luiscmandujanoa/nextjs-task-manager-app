@@ -12,9 +12,7 @@ export function TaskManager({ tasks }: { tasks: Task[] }) {
 
     const handleEdit = (task: Task) => {
         setSelectedTask(task);
-        setTimeout(() => {
-            ref.current?.showModal();
-        }, 0);
+        setTimeout(() => ref.current?.showModal(), 0);
     };
 
     const handleCreate = () => {
@@ -31,48 +29,57 @@ export function TaskManager({ tasks }: { tasks: Task[] }) {
                 onClose={() => setSelectedTask(null)}
             />
 
-            <div className="mt-6 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                {tasks.map((currentTask) => {
-                    return (
-                        <div
-                            key={currentTask.id}
-                            className="bg-borderColor2 border-borderColor2 flex h-[16rem] flex-col gap-[0.5rem] rounded-lg border-2 px-[1rem] py-[1.2rem]"
-                        >
-                            <div className="flex flex-1 flex-col space-y-5">
-                                <h2 className="text-lg">{currentTask.title}</h2>
-                                <p className="text-sm text-white/90">
-                                    {currentTask.description}
-                                </p>
-                                <p>{currentTask.date}</p>
-                            </div>
-                            <div className="flex items-center justify-between">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {tasks.map((task) => (
+                    <article
+                        key={task.id}
+                        className="bg-surface border-border flex h-[16rem] flex-col gap-2 rounded-xl border p-4"
+                    >
+                        <div className="flex flex-1 flex-col gap-2">
+                            <h2 className="font-display font-semibold">
+                                {task.title}
+                            </h2>
+                            <p className="text-muted line-clamp-3 text-sm">
+                                {task.description}
+                            </p>
+                            <p className="text-muted text-xs">
+                                {task.date
+                                    ? new Date(task.date).toLocaleDateString()
+                                    : "No date"}
+                            </p>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                            <span
+                                className={`rounded-full px-2 py-1 text-xs font-medium ${
+                                    task.isCompleted
+                                        ? "bg-green-500/20 text-green-400"
+                                        : "bg-red-500/20 text-red-400"
+                                }`}
+                            >
+                                {task.isCompleted ? "Completed" : "Incomplete"}
+                            </span>
+
+                            <div className="text-muted flex items-center gap-3">
                                 <button
-                                    className={`rounded-2xl px-2 py-1 ${currentTask.isCompleted ? "bg-green-500" : "bg-red-500"}`}
+                                    onClick={() => handleEdit(task)}
+                                    className="hover:text-foreground transition"
+                                    aria-label="Edit task"
                                 >
-                                    {currentTask.isCompleted
-                                        ? "Completed"
-                                        : "Incomplete"}
+                                    <FaFilePen size={15} />
                                 </button>
-                                <div className="flex space-x-3">
-                                    <button
-                                        onClick={() => handleEdit(currentTask)}
-                                        className="hover:cursor-pointer"
-                                    >
-                                        <FaFilePen />
-                                    </button>
-                                    <DeleteButton taskId={currentTask.id} />
-                                </div>
+                                <DeleteButton taskId={task.id} />
                             </div>
                         </div>
-                    );
-                })}
+                    </article>
+                ))}
 
                 <button
                     onClick={handleCreate}
-                    className="text-colorGrey2 hover:bg-colorGrey5 border-borderColor2 flex h-[16rem] items-center justify-center gap-[0.5rem] rounded-lg border-1 border-dashed hover:cursor-pointer"
+                    className="border-border text-muted hover:bg-nav-hover flex h-[16rem] flex-col items-center justify-center gap-2 rounded-xl border border-dashed transition"
                 >
-                    <FaPlus />
-                    New Task
+                    <FaPlus size={20} />
+                    <span className="text-sm">New Task</span>
                 </button>
             </div>
         </>

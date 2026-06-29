@@ -1,6 +1,5 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { FaTrash } from "react-icons/fa6";
 import { deleteTask } from "@/actions/task.actions";
@@ -13,9 +12,10 @@ function TrashButton() {
         <button
             type="submit"
             disabled={pending}
-            className="hover:cursor-pointer disabled:opacity-50"
+            aria-label="Delete task"
+            className="text-muted transition hover:text-red-400 disabled:opacity-50"
         >
-            <FaTrash />
+            <FaTrash size={15} />
         </button>
     );
 }

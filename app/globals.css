@@ -1,37 +1,57 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #171717;
-  --foreground: #ffffff;
-  --colorBg2: #212121;
-  --borderColor2: rgba(249, 249, 249, 0.08);
-  --activeNavLink: rgba(249, 249, 249, 0.08);
-  --activeNavLinkHover: rgba(249, 249, 249, 0.03);
-  --shadow7: rgba(8, 18, 69, 0.1);
-  --colorGrey2: #b2becd;
-  --colorGrey5: #2a2e35;
+    /* Light mode */
+    --background: #f8f9fa;
+    --surface: #ffffff;
+    --border: rgba(0, 0, 0, 0.08);
+    --nav-active: rgba(0, 0, 0, 0.06);
+    --nav-hover: rgba(0, 0, 0, 0.03);
+    --foreground: #111111;
+    --muted: #6b7280;
+    --muted-bg: #f1f3f5;
+    --shadow: rgba(0, 0, 0, 0.08);
+    --accent: #6c47ff;
+    --accent-hover: #5835e0;
+}
+
+.dark {
+    --background: #171717;
+    --surface: #212121;
+    --border: rgba(249, 249, 249, 0.08);
+    --nav-active: rgba(249, 249, 249, 0.08);
+    --nav-hover: rgba(249, 249, 249, 0.03);
+    --foreground: #ffffff;
+    --muted: #b2becd;
+    --muted-bg: #2a2e35;
+    --shadow: rgba(8, 18, 69, 0.1);
+    --accent: #6c47ff;
+    --accent-hover: #7c5cff;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --color-colorBg2: var(--colorBg2);
-  --color-borderColor2: var(--borderColor2);
-  --color-activeNavLink: var(--activeNavLink);
-  --color-activeNavLinkHover: var(--activeNavLinkHover);
-  --color-shadow7: var(--shadow7);
-  --color-colorGrey2: var(--colorGrey2);
-  --color-colorGrey5: var(--colorGrey5);
+    --color-background: var(--background);
+    --color-surface: var(--surface);
+    --color-border: var(--border);
+    --color-nav-active: var(--nav-active);
+    --color-nav-hover: var(--nav-hover);
+    --color-foreground: var(--foreground);
+    --color-muted: var(--muted);
+    --color-muted-bg: var(--muted-bg);
+    --color-shadow: var(--shadow);
+    --color-accent: var(--accent);
+    --color-accent-hover: var(--accent-hover);
+    --font-sans: var(--font-geist-sans);
+    --font-display: var(--font-syne);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--foreground);
 }
 
 dialog {
-  margin: auto;
+    margin: auto;
 }

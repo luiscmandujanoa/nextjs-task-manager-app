@@ -1,59 +1,85 @@
 "use client";
+
 import Link from "next/link";
-import React from "react";
 import {
     FaHouse,
     FaListCheck,
     FaCheck,
     FaClipboardList,
 } from "react-icons/fa6";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
-import { SignOutButton } from "@clerk/nextjs";
-import { Show, UserButton } from "@clerk/react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { MdLightMode, MdDarkMode } from "react-icons/md";
 
-function Sidebar() {
+const navLinks = [
+    { href: "/", label: "All Tasks", icon: FaHouse },
+    { href: "/completed", label: "Completed", icon: FaListCheck },
+    { href: "/important", label: "Important", icon: FaCheck },
+    { href: "/incomplete", label: "Incomplete", icon: FaClipboardList },
+];
+
+export default function Sidebar() {
     const pathName = usePathname();
+    const { user } = useUser();
+
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    const displayName = user?.firstName
+        ? `${user.firstName} ${user.lastName ?? ""}`.trim()
+        : (user?.username ?? "");
 
     return (
-        <div className="bg-colorBg2 border-borderColor2 flex w-[15rem] flex-col justify-between rounded-xl border border-3 p-[2rem]">
-            <Show when="signed-in">
-                <UserButton />
-            </Show>
-            <ul>
-                <li
-                    className={`hover:bg-activeNavLinkHover mx-[0.3rem] my-0 p-[0.5rem] ${pathName === "/" ? "bg-activeNavLink" : ""}`}
+        <aside className="bg-surface border-border flex w-[15rem] flex-col justify-between rounded-xl border p-[2rem]">
+            <div>
+                <div className="mb-8 flex items-center gap-3">
+                    <UserButton />
+                    <p className="truncate font-medium capitalize">
+                        {displayName}
+                    </p>
+                </div>
+
+                <nav>
+                    <ul className="flex flex-col gap-1">
+                        {navLinks.map(({ href, label, icon: Icon }) => (
+                            <li key={href}>
+                                <Link
+                                    href={href}
+                                    className={`hover:bg-nav-hover flex items-center gap-3 rounded-lg px-3 py-2 transition ${
+                                        pathName === href ? "bg-nav-active" : ""
+                                    }`}
+                                >
+                                    <Icon size={18} />
+                                    <span>{label}</span>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </nav>
+            </div>
+
+            {/* Theme toggle va aquí */}
+            {mounted && (
+                <button
+                    onClick={() =>
+                        setTheme(theme === "dark" ? "light" : "dark")
+                    }
+                    className="hover:bg-nav-hover text-muted flex items-center gap-3 rounded-lg px-3 py-2 transition hover:cursor-pointer"
                 >
-                    <Link href="/" className="flex gap-4">
-                        <FaHouse size={20} /> All Tasks
-                    </Link>
-                </li>
-                <li
-                    className={`hover:bg-activeNavLinkHover mx-[0.3rem] my-0 p-[0.5rem] ${pathName === "/completed" ? "bg-activeNavLink" : ""}`}
-                >
-                    <Link href="/completed" className="flex gap-4">
-                        <FaListCheck size={20} /> Completed
-                    </Link>
-                </li>
-                <li
-                    className={`hover:bg-activeNavLinkHover mx-[0.3rem] my-0 p-[0.5rem] ${pathName === "/important" ? "bg-activeNavLink" : ""}`}
-                >
-                    <Link href="/important" className="flex gap-4">
-                        <FaCheck size={20} /> Important
-                    </Link>
-                </li>
-                <li
-                    className={`hover:bg-activeNavLinkHover mx-[0.3rem] my-0 p-[0.5rem] ${pathName === "/incomplete" ? "bg-activeNavLink" : ""}`}
-                >
-                    <Link href="/incomplete" className="flex gap-4">
-                        <FaClipboardList size={20} /> Incomplete
-                    </Link>
-                </li>
-            </ul>
-            <Show when="signed-in">
-                <SignOutButton />
-            </Show>
-        </div>
+                    {theme === "dark" ? (
+                        <MdLightMode size={18} />
+                    ) : (
+                        <MdDarkMode size={18} />
+                    )}
+                    <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+                </button>
+            )}
+        </aside>
     );
 }
-
-export default Sidebar;

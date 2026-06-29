@@ -1,17 +1,13 @@
 import { getTasks } from "@/actions/task.actions";
 import { TaskManager } from "@/components/TaskManager";
-import React from "react";
 
-async function page() {
+export default async function Page() {
     const tasks = await getTasks({ isImportant: true });
 
     return (
-        <div>
-            <h1 className="text-xl font-bold">IMPORTANT TASKS</h1>
-
+        <div className="flex flex-col gap-4">
+            <h1 className="font-display text-2xl font-bold">Important Tasks</h1>
             <TaskManager tasks={tasks} />
         </div>
     );
 }
-
-export default page;

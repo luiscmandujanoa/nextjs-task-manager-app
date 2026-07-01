@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Syne } from "next/font/google";
 import "./globals.css";
-import Sidebar from "@/components/Sidebar";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
@@ -32,14 +31,14 @@ export default function RootLayout({
             className={`${geistSans.variable} ${syne.variable} antialiased`}
             suppressHydrationWarning
         >
-            <body className="bg-background text-foreground flex min-h-screen gap-[2.5rem] p-[2.5rem]">
+            <body className="bg-background text-foreground min-h-screen">
                 <ThemeProvider>
-                    <ClerkProvider>
-                        <Sidebar />
+                    <ClerkProvider
+                        signInFallbackRedirectUrl="/tasks"
+                        signUpFallbackRedirectUrl="/tasks"
+                    >
                         <Toaster position="bottom-right" />
-                        <main className="bg-surface border-border flex-1 rounded-xl border-2 p-[2rem]">
-                            {children}
-                        </main>
+                        {children}
                     </ClerkProvider>
                 </ThemeProvider>
             </body>

@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
 
 const navLinks = [
-    { href: "/", label: "All Tasks", icon: FaHouse },
+    { href: "/tasks", label: "All Tasks", icon: FaHouse },
     { href: "/completed", label: "Completed", icon: FaListCheck },
     { href: "/important", label: "Important", icon: FaCheck },
     { href: "/incomplete", label: "Incomplete", icon: FaClipboardList },
